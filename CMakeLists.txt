@@ -1,0 +1,21 @@
+CMAKE_MINIMUM_REQUIRED( VERSION 3.12 )
+
+LIST( APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-submodules" )
+
+FIND_PACKAGE( CSharp REQUIRED )
+INCLUDE( ${CSHARP_USE_FILE} )
+#set( CSHARP_PLATFORM "x64")
+
+set( CSHARP_SDK "/sdk:7")
+
+SET ( SOURCE_FILES
+  G2Product.cs
+  Util.cs
+  )
+
+CSHARP_ADD_LIBRARY ( G2_csharp ${SOURCE_FILES} )
+
+CSHARP_ADD_EXECUTABLE ( test G2_csharp Test.cs )
+
+ADD_DEPENDENCIES( test G2_csharp )
+
