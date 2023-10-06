@@ -35,7 +35,7 @@ public static void addRecord(string dataSourceCode, string recordID, string json
 struct G2_getEntityByEntityID_V2_result
 {
     public IntPtr response;
-    public int returnCode;
+    public long returnCode;
 }
 
 [DllImport ("G2")]
@@ -61,7 +61,7 @@ public static string getEntityByEntityID(long entityID, long flags = 0)
 struct G2_getEntityByRecordID_V2_result
 {
     public IntPtr response;
-    public int returnCode;
+    public long returnCode;
 }
 
 [DllImport ("G2")]
