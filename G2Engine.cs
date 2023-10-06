@@ -8,23 +8,23 @@ namespace Senzing
   public class G2Engine
   {
 [DllImport ("G2")]
-static extern int G2_init(byte[] moduleName, byte[] iniParams, int verboseLogging);
+static extern long G2_init(byte[] moduleName, byte[] iniParams, long verboseLogging);
 public static void init(string moduleName, string iniParams, int verboseLogging) { HandleError(G2_init(Encoding.UTF8.GetBytes(moduleName),Encoding.UTF8.GetBytes(iniParams), verboseLogging)); }
 
 [DllImport ("G2")]
-static extern int G2_destroy();
+static extern long G2_destroy();
 public static void destroy() { HandleError(G2_destroy()); }
 
 [DllImport ("G2")]
-static extern int G2_deleteRecord(byte[] dataSourceCode, byte[] recordID);
+static extern long G2_deleteRecord(byte[] dataSourceCode, byte[] recordID, IntPtr loadID);
 public static void deleteRecord(string dataSourceCode, string recordID)
 {
-  HandleError(G2_deleteRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID)));
+  HandleError(G2_deleteRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero));
 }
 
 
 [DllImport ("G2")]
-static extern int G2_addRecord(byte[] dataSourceCode, byte[] recordID, byte[] jsonData, IntPtr loadID);
+static extern long G2_addRecord(byte[] dataSourceCode, byte[] recordID, byte[] jsonData, IntPtr loadID);
 public static void addRecord(string dataSourceCode, string recordID, string jsonData)
 {
   HandleError(G2_addRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero));
@@ -35,7 +35,7 @@ public static void addRecord(string dataSourceCode, string recordID, string json
 struct G2_getEntityByEntityID_V2_result
 {
     public IntPtr response;
-    public long returnCode;
+    public int returnCode;
 }
 
 [DllImport ("G2")]
@@ -44,6 +44,7 @@ public static string getEntityByEntityID(long entityID, long flags = 0)
 {
   G2_getEntityByEntityID_V2_result result;
   result.response = IntPtr.Zero;
+  result.returnCode = 0;
   try
   {
     result = G2_getEntityByEntityID_V2_helper(entityID, flags);
@@ -60,7 +61,7 @@ public static string getEntityByEntityID(long entityID, long flags = 0)
 struct G2_getEntityByRecordID_V2_result
 {
     public IntPtr response;
-    public long returnCode;
+    public int returnCode;
 }
 
 [DllImport ("G2")]
@@ -82,26 +83,25 @@ public static string getEntityByRecordID(string dataSourceCode, string recordID,
 }
 
 [DllImport ("G2")]
-static extern int G2_getLastException([MarshalAs(UnmanagedType.LPArray)] byte[] buf, int length);
+static extern long G2_getLastException([MarshalAs(UnmanagedType.LPArray)] byte[] buf, long length);
 [DllImport ("G2")]
-static extern int G2_getLastExceptionCode();
+static extern long G2_getLastExceptionCode();
+[DllImport ("G2")]
+static extern void G2_clearLastException();
 
-static void HandleError(int retCode)
+static void HandleError(long retCode)
 {
+  Console.WriteLine("retCode: " + retCode);
   if (retCode == 0)
     return;
 
-  int errorCode = G2_getLastExceptionCode();
+  long errorCode = G2_getLastExceptionCode();
   byte[] buf = new byte[4096];
   if (G2_getLastException(buf, buf.Length) != 0)
     G2Exception.HandleError(errorCode, System.Text.Encoding.UTF8.GetString(buf));
   else
     G2Exception.HandleError(errorCode, "Failed to return error message");
-}
-
-static void HandleError(long retCode)
-{
-  HandleError((int)retCode);
+  G2_clearLastException();
 }
 
   }

@@ -6,19 +6,19 @@ namespace Senzing
   {
     public G2Exception() {  _code=-1; }
     public G2Exception(string message) : base(message) { _code=-1; }
-    public G2Exception(int code, string message) : base(message) { _code=code; }
+    public G2Exception(long code, string message) : base(message) { _code=code; }
     public G2Exception(string message, Exception inner) : base(message, inner) { _code=-1; }
 
-    public int code() { return _code; }
+    public long code() { return _code; }
 
 
-    public static void HandleError(int code, string message)
+    public static void HandleError(long code, string message)
     {
       if (code != 0)
         throw new G2Exception(code, message);
     }
 
-    int _code;
+    long _code;
   }
 
 

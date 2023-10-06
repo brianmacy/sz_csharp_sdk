@@ -1,13 +1,19 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Senzing
 {
   class Util
   {
-    public static String UTF8toString(IntPtr str)
+    public static string UTF8toString(IntPtr str)
     {
-      return System.Runtime.InteropServices.Marshal.PtrToStringUTF8(str);
+      //return System.Runtime.InteropServices.Marshal.PtrToStringUTF8(str);
+      int len = 0;
+      while (Marshal.ReadByte(str, len) != 0) ++len;
+      byte[] buffer = new byte[len];
+      Marshal.Copy(str, buffer, 0, buffer.Length);
+      return Encoding.UTF8.GetString(buffer);
     }
 
 [DllImport ("G2")]
@@ -17,16 +23,5 @@ static extern void G2GoHelper_free(IntPtr p);
     {
       G2GoHelper_free(p);
     }
-
-    /*
-    static unsafe String UTF8toString(byte* str)
-    {
-      int length = 0;
-      for (byte* i = str; *i != 0; i++, length++);
-      var convertedArray = new byte[length];
-      System.Runtime.InteropServices.Marshal.Copy(new IntPtr(str), convertedArray , 0, length);
-      return Encoding.UTF8.GetString(convertedArray, 0, convertedArray.Length);
-    }
-    */
   }
 }

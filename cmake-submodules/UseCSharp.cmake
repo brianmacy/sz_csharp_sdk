@@ -62,7 +62,7 @@ macro( CSHARP_ADD_PROJECT type name )
   foreach( it ${ARGN} )
     if( ${it} MATCHES "(.*)(dll)" )
        # Argument is a dll, add reference
-       list( APPEND refs /reference:${it} )
+       list( APPEND refs "${it}" )
     else( )
       # Argument is a source file
       if( EXISTS ${it} )
@@ -101,17 +101,17 @@ macro( CSHARP_ADD_PROJECT type name )
     LIST(APPEND CSHARP_SOURCE_LIST ${it})
   endforeach()
 
+  LIST(JOIN refs "," refs)
   # Add custom target and command
-  MESSAGE( STATUS "Adding C# ${type} ${name}: '${CSHARP_COMPILER} /unsafe+ /t:${type} /out:${name}.${output} /platform:${CSHARP_PLATFORM} ${CSHARP_SDK} ${refs} ${CSHARP_SOURCE_LIST}'" )
+  MESSAGE( STATUS "Adding C# ${type} ${name}: '${CSHARP_COMPILER} /t:${type} /out:${name}.${output} /platform:${CSHARP_PLATFORM} ${CSHARP_SDK} ${refs} ${CSHARP_SOURCE_LIST}'" )
   add_custom_command(
-    COMMENT "Compiling C# ${type} ${name}: '${CSHARP_COMPILER} /unsafe+ /t:${type} /out:${name}.${output} /platform:${CSHARP_PLATFORM} ${CSHARP_SDK} ${refs} ${CSHARP_SOURCE_LIST}'"
+    COMMENT "Compiling C# ${type} ${name}: '${CSHARP_COMPILER} /t:${type} /out:${name}.${output} /platform:${CSHARP_PLATFORM} ${CSHARP_SDK} ${refs} ${CSHARP_SOURCE_LIST}'"
     OUTPUT ${CSHARP_BINARY_DIRECTORY}/${name}.${output}
     COMMAND ${CSHARP_COMPILER}
     ARGS /unsafe+ /t:${type} /out:${name}.${output} /platform:${CSHARP_PLATFORM} ${CSHARP_SDK} ${refs} ${CSHARP_SOURCE_LIST}
     WORKING_DIRECTORY ${CSHARP_BINARY_DIRECTORY}
     DEPENDS ${sources_dep}
   )
-MESSAGE( STATUS ${sources_dep} )
   add_custom_target(
     ${name} ALL
     DEPENDS ${CSHARP_BINARY_DIRECTORY}/${name}.${output}

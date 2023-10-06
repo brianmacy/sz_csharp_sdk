@@ -4,9 +4,11 @@ LIST( APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake-submodules" )
 
 FIND_PACKAGE( CSharp REQUIRED )
 INCLUDE( ${CSHARP_USE_FILE} )
+FIND_PACKAGE( DotNetFrameworkSdk REQUIRED )
+INCLUDE( ${DotNetFrameworkSdk_USE_FILE} )
 #set( CSHARP_PLATFORM "x64")
 
-set( CSHARP_SDK "/sdk:7")
+set( CSHARP_SDK "/sdk:4.5")
 
 SET ( SOURCE_FILES
   G2Exceptions.cs
