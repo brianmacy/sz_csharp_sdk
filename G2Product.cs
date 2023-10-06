@@ -5,7 +5,7 @@ using Senzing;
 
 namespace Senzing
 {
-  class G2Product
+  public class G2Product
   {
 [DllImport ("G2")]
 static extern int G2Product_init(byte[] moduleName, byte[] iniParams, int verboseLogging);

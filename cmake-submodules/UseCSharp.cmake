@@ -66,7 +66,6 @@ macro( CSHARP_ADD_PROJECT type name )
     else( )
       # Argument is a source file
       if( EXISTS ${it} )
-        MESSAGE (STATUS "YEP ${it}")
         list( APPEND sources ${it}  )
         list( APPEND sources_dep ${it}  )
       elseif( EXISTS ${CSHARP_SOURCE_DIRECTORY}/${it} )
@@ -90,6 +89,8 @@ macro( CSHARP_ADD_PROJECT type name )
 
 
   ## Perform platform specific actions
+  SET (CSHARP_SOURCE_LIST)
+
   foreach (it ${sources})
     if (WIN32)
       string( REPLACE "/" "\\" val ${it} )
@@ -99,8 +100,6 @@ macro( CSHARP_ADD_PROJECT type name )
 
     LIST(APPEND CSHARP_SOURCE_LIST ${it})
   endforeach()
-
-  MESSAGE (STATUS ${CSHARP_SOURCE_LIST})
 
   # Add custom target and command
   MESSAGE( STATUS "Adding C# ${type} ${name}: '${CSHARP_COMPILER} /unsafe+ /t:${type} /out:${name}.${output} /platform:${CSHARP_PLATFORM} ${CSHARP_SDK} ${refs} ${CSHARP_SOURCE_LIST}'" )

@@ -3,7 +3,7 @@ using Senzing;
 
 namespace Test
 {
-  class ProductTest
+  class EngineTest
   {
     static int Main(string[] args)
     {
@@ -13,10 +13,8 @@ namespace Test
         Console.WriteLine("SENZING_ENGINE_CONFIGURATION_JSON must be defined");
         return -1;
       }
-      G2Product.init("ProductTest",engineConfig,1);
-      Console.WriteLine("version: " + G2Product.version());
-      Console.WriteLine("license: " + G2Product.license());
-      G2Product.destroy();
+      G2Engine.init("EngineTest",engineConfig,1);
+      G2Engine.destroy();
       return 0;
     }
   }
