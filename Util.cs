@@ -10,6 +10,14 @@ namespace Senzing
       return System.Runtime.InteropServices.Marshal.PtrToStringUTF8(str);
     }
 
+[DllImport ("G2")]
+static extern void G2GoHelper_free(IntPtr p);
+
+    public static void FreeG2Buffer(IntPtr p)
+    {
+      G2GoHelper_free(p);
+    }
+
     /*
     static unsafe String UTF8toString(byte* str)
     {
