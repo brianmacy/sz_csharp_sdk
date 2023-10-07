@@ -13,7 +13,7 @@ class EngineTest
             Console.WriteLine("SENZING_ENGINE_CONFIGURATION_JSON must be defined");
             return -1;
         }
-        G2Engine.init("EngineTest",engineConfig,1);
+        G2Engine.init("EngineTest",engineConfig,0); // change 0 -> 1 for debug trace
 
         try
         {
@@ -26,12 +26,12 @@ class EngineTest
         }
 
         G2Engine.addRecord("TEST", "CS1","{\"NAME_FULL\":\"John Smith\",\"PHONE_NUMBER\":\"5551212\"}");
-        Console.WriteLine("addRecord: success");
+        Console.WriteLine("addRecord: [SUCCESS]");
         Console.WriteLine("getEntityByRecordID: " + G2Engine.getEntityByRecordID("TEST", "CS1", -1));
         Console.WriteLine("searchByAttributes: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}", -1));
 
         G2Engine.deleteRecord("TEST", "CS1");
-        Console.WriteLine("deleteRecord: success");
+        Console.WriteLine("deleteRecord: [SUCCESS]");
 
         try
         {

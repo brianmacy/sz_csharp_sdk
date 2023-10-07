@@ -157,10 +157,11 @@ public class G2Engine
 
     static void HandleError(long retCode)
     {
-        Console.WriteLine("retCode: " + retCode);
         if (retCode == 0)
             return;
 
+        if (retCode > 0 || retCode < -2) // there are some cross-platform int size on return issues
+            Console.WriteLine("BAD retCode: " + retCode);
         long errorCode = G2_getLastExceptionCode();
         byte[] buf = new byte[4096];
         if (G2_getLastException(buf, buf.Length) != 0)
