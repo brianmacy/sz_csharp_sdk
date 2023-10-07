@@ -20,7 +20,7 @@ class EngineTest
             Console.WriteLine("getEntityByEntityID: " + G2Engine.getEntityByEntityID(-1, -1));
             return -1; // this should fail
         }
-        catch (G2Exception e)
+        catch (G2NotFoundException e)
         {
             Console.WriteLine("getEntityByEntityID -1: Unknown [SUCCESS]");
         }
@@ -35,10 +35,20 @@ class EngineTest
 
         try
         {
+            Console.WriteLine("getEntityByRecordID UNKNOWNDATASOURCE CS1: " + G2Engine.getEntityByRecordID("UNKNOWNDATASOURCE", "CS1", -1));
+            return -1; // this should fail
+        }
+        catch (G2UnknownDatasourceException e)
+        {
+            Console.WriteLine("getEntityByRecordID UNKNOWNDATASOURCE CS1: Unknown [SUCCESS]");
+        }
+
+        try
+        {
             Console.WriteLine("getEntityByRecordID TEST CS1: " + G2Engine.getEntityByRecordID("TEST", "CS1", -1));
             return -1; // this should fail
         }
-        catch (G2Exception e)
+        catch (G2NotFoundException e)
         {
             Console.WriteLine("getEntityByRecordID TEST CS1: Unknown [SUCCESS]");
         }

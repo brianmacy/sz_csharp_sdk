@@ -23,5 +23,6 @@ class Util
     {
         G2GoHelper_free(p);
     }
+
 }
 }
