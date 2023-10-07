@@ -17,7 +17,7 @@ class EngineTest
 
         try
         {
-            Console.WriteLine("getEntityByEntityID: " + G2Engine.getEntityByEntityID(-1, -1));
+            Console.WriteLine("getEntityByEntityID: " + G2Engine.getEntityByEntityID(-1, G2EngineFlags.G2_ENTITY_INCLUDE_ALL_RELATIONS | G2EngineFlags.G2_ENTITY_INCLUDE_RECORD_DATA | G2EngineFlags.G2_ENTITY_INCLUDE_RECORD_MATCHING_INFO));
             return -1; // this should fail
         }
         catch (G2NotFoundException e)
@@ -27,15 +27,15 @@ class EngineTest
 
         G2Engine.addRecord("TEST", "CS1","{\"NAME_FULL\":\"John Smith\",\"PHONE_NUMBER\":\"5551212\"}");
         Console.WriteLine("addRecord: [SUCCESS]");
-        Console.WriteLine("getEntityByRecordID: " + G2Engine.getEntityByRecordID("TEST", "CS1", -1));
-        Console.WriteLine("searchByAttributes: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}", -1));
+        Console.WriteLine("getEntityByRecordID: " + G2Engine.getEntityByRecordID("TEST", "CS1"));
+        Console.WriteLine("searchByAttributes: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}"));
 
         G2Engine.deleteRecord("TEST", "CS1");
         Console.WriteLine("deleteRecord: [SUCCESS]");
 
         try
         {
-            Console.WriteLine("getEntityByRecordID UNKNOWNDATASOURCE CS1: " + G2Engine.getEntityByRecordID("UNKNOWNDATASOURCE", "CS1", -1));
+            Console.WriteLine("getEntityByRecordID UNKNOWNDATASOURCE CS1: " + G2Engine.getEntityByRecordID("UNKNOWNDATASOURCE", "CS1"));
             return -1; // this should fail
         }
         catch (G2UnknownDatasourceException e)
@@ -45,7 +45,7 @@ class EngineTest
 
         try
         {
-            Console.WriteLine("getEntityByRecordID TEST CS1: " + G2Engine.getEntityByRecordID("TEST", "CS1", -1));
+            Console.WriteLine("getEntityByRecordID TEST CS1: " + G2Engine.getEntityByRecordID("TEST", "CS1"));
             return -1; // this should fail
         }
         catch (G2NotFoundException e)
@@ -62,7 +62,7 @@ class EngineTest
           redoRecord = G2Engine.getRedoRecord();
         }
 
-        Console.WriteLine("searchByAttributes2: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}", -1));
+        Console.WriteLine("searchByAttributes2: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}"));
 
         G2Engine.destroy();
         return 0;

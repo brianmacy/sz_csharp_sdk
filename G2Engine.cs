@@ -44,14 +44,14 @@ public class G2Engine
 
     [DllImport ("G2")]
     static extern G2_getEntityByEntityID_V2_result G2_getEntityByEntityID_V2_helper(long entityID, long flags);
-    public static string getEntityByEntityID(long entityID, long flags = 0)
+    public static string getEntityByEntityID(long entityID, G2EngineFlags flags = G2EngineFlags.G2_ENTITY_DEFAULT_FLAGS)
     {
         G2_getEntityByEntityID_V2_result result;
         result.response = IntPtr.Zero;
         result.returnCode = 0;
         try
         {
-            result = G2_getEntityByEntityID_V2_helper(entityID, flags);
+            result = G2_getEntityByEntityID_V2_helper(entityID, (long)flags);
             HandleError(result.returnCode);
             return Util.UTF8toString(result.response);
         }
@@ -70,13 +70,13 @@ public class G2Engine
 
     [DllImport ("G2")]
     static extern G2_getEntityByRecordID_V2_result G2_getEntityByRecordID_V2_helper(byte[] dataSourceCode, byte[] recordID, long flags);
-    public static string getEntityByRecordID(string dataSourceCode, string recordID, long flags = 0)
+    public static string getEntityByRecordID(string dataSourceCode, string recordID, G2EngineFlags flags = G2EngineFlags.G2_ENTITY_DEFAULT_FLAGS)
     {
         G2_getEntityByRecordID_V2_result result;
         result.response = IntPtr.Zero;
         try
         {
-            result = G2_getEntityByRecordID_V2_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), flags);
+            result = G2_getEntityByRecordID_V2_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), (long)flags);
             HandleError(result.returnCode);
             return Util.UTF8toString(result.response);
         }
@@ -130,13 +130,13 @@ public class G2Engine
 
     [DllImport ("G2")]
     static extern G2_searchByAttributes_V2_result G2_searchByAttributes_V2_helper(byte[] jsonData, long flags);
-    public static string searchByAttributes(string jsonData, long flags = 0)
+    public static string searchByAttributes(string jsonData, G2EngineFlags flags = G2EngineFlags.G2_SEARCH_BY_ATTRIBUTES_DEFAULT_FLAGS)
     {
         G2_searchByAttributes_V2_result result;
         result.response = IntPtr.Zero;
         try
         {
-            result = G2_searchByAttributes_V2_helper(Encoding.UTF8.GetBytes(jsonData), flags);
+            result = G2_searchByAttributes_V2_helper(Encoding.UTF8.GetBytes(jsonData), (long)flags);
             HandleError(result.returnCode);
             return Util.UTF8toString(result.response);
         }

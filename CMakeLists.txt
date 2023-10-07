@@ -11,6 +11,7 @@ SET ( SOURCE_FILES
   G2Exceptions.cs
   G2Product.cs
   G2Engine.cs
+  G2EngineFlags.cs
   Util.cs
   )
 
