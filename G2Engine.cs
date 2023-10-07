@@ -161,7 +161,7 @@ public class G2Engine
             return;
 
         if (retCode > 0 || retCode < -2) // there are some cross-platform int size on return issues
-            Console.WriteLine("BAD retCode: " + retCode);
+            Console.Error.WriteLine("BAD retCode: " + retCode);
         long errorCode = G2_getLastExceptionCode();
         byte[] buf = new byte[4096];
         if (G2_getLastException(buf, buf.Length) != 0)
