@@ -28,6 +28,7 @@ class EngineTest
         G2Engine.addRecord("TEST", "CS1","{\"NAME_FULL\":\"John Smith\",\"PHONE_NUMBER\":\"5551212\"}");
         Console.WriteLine("addRecord: success");
         Console.WriteLine("getEntityByRecordID: " + G2Engine.getEntityByRecordID("TEST", "CS1", -1));
+        Console.WriteLine("searchByAttributes: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}", -1));
 
         G2Engine.deleteRecord("TEST", "CS1");
         Console.WriteLine("deleteRecord: success");
@@ -42,6 +43,16 @@ class EngineTest
             Console.WriteLine("getEntityByRecordID TEST CS1: Unknown [SUCCESS]");
         }
 
+        string redoRecord = G2Engine.getRedoRecord();
+        while (!string.IsNullOrEmpty(redoRecord))
+        {
+          Console.WriteLine("redoRecord: " + redoRecord);
+          G2Engine.processRedoRecord(redoRecord);
+          Console.WriteLine("processRedoRecord: SUCCESS");
+          redoRecord = G2Engine.getRedoRecord();
+        }
+
+        Console.WriteLine("searchByAttributes2: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}", -1));
 
         G2Engine.destroy();
         return 0;

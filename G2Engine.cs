@@ -87,6 +87,67 @@ public class G2Engine
     }
 
 
+    [StructLayout(LayoutKind.Sequential)]
+    struct G2_getRedoRecord_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    }
+
+    [DllImport ("G2")]
+    static extern G2_getRedoRecord_result G2_getRedoRecord_helper();
+    public static string getRedoRecord()
+    {
+        G2_getRedoRecord_result result;
+        result.response = IntPtr.Zero;
+        try
+        {
+            result = G2_getRedoRecord_helper();
+            HandleError(result.returnCode);
+            return Util.UTF8toString(result.response);
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+    }
+
+
+    [DllImport ("G2")]
+    static extern long G2_process(byte[] redoRecord);
+    public static void processRedoRecord(string redoRecord)
+    {
+        HandleError(G2_process(Encoding.UTF8.GetBytes(redoRecord)));
+    }
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct G2_searchByAttributes_V2_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    }
+
+    [DllImport ("G2")]
+    static extern G2_searchByAttributes_V2_result G2_searchByAttributes_V2_helper(byte[] jsonData, long flags);
+    public static string searchByAttributes(string jsonData, long flags = 0)
+    {
+        G2_searchByAttributes_V2_result result;
+        result.response = IntPtr.Zero;
+        try
+        {
+            result = G2_searchByAttributes_V2_helper(Encoding.UTF8.GetBytes(jsonData), flags);
+            HandleError(result.returnCode);
+            return Util.UTF8toString(result.response);
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+    }
+
+
+
     [DllImport ("G2")]
     static extern long G2_getLastException([MarshalAs(UnmanagedType.LPArray)] byte[] buf, long length);
     [DllImport ("G2")]
