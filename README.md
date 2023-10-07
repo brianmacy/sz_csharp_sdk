@@ -14,3 +14,11 @@ cmake .
 make
 make test
 ```
+
+## Documentation
+Mostly there isn't any.  You can run doxygen Doxyfile and get the class hierarchy and functions.
+
+The simple <name>Test.cs files show some basic use.  The main purpose of the functions and parameters can be easily seen at http://docs.senzing.com/
+
+The one main divergence from docs.senzing.com is processRedoRecord.  The .NET interface has processRedoRecord take the record returned from getRedoRecord.  In the current standard docs.senzing.com, processRedoRecord internally does the get and returns the record processed.  EngineTest.cs shows the .NET pattern.
+
