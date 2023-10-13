@@ -358,6 +358,7 @@ public class G2Exception : Exception
         case 1018:
             throw new G2DatabaseException(code, message);
 
+        case 9000:
         case 999:
             throw new G2LicenseException(code, message);
 

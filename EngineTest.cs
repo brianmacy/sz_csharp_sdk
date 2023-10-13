@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using Senzing;
 
 namespace Test
@@ -52,6 +53,10 @@ class EngineTest
         {
             Console.WriteLine("getEntityByRecordID TEST CS1: Unknown [SUCCESS]");
         }
+
+        StringBuilder sb = new StringBuilder();
+        G2Engine.addRecord("TEST", "CS2","{\"NAME_FULL\":\"John Smith\",\"PHONE_NUMBER\":\"5551212\"}", sb);
+        Console.WriteLine("addRecord withInfo: [SUCCESS] "+sb.ToString());
 
         string redoRecord = G2Engine.getRedoRecord();
         while (!string.IsNullOrEmpty(redoRecord))

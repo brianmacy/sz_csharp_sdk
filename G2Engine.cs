@@ -26,12 +26,38 @@ public class G2Engine
         HandleError(G2_deleteRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero));
     }
 
-
+    struct G2_addRecordWithInfo_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    };
     [DllImport ("G2")]
     static extern long G2_addRecord(byte[] dataSourceCode, byte[] recordID, byte[] jsonData, IntPtr loadID);
-    public static void addRecord(string dataSourceCode, string recordID, string jsonData)
+    [DllImport ("G2")]
+    static extern G2_addRecordWithInfo_result G2_addRecordWithInfo_helper(byte[] dataSourceCode, byte[] recordID, byte[] jsonData, IntPtr loadID, long flags);
+    public static void addRecord(string dataSourceCode, string recordID, string jsonData, StringBuilder withInfo = null)
     {
+      if (withInfo == null)
+      {
         HandleError(G2_addRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero));
+      }
+      else
+      {
+        withInfo.Clear();
+        G2_addRecordWithInfo_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
+        try
+        {
+            result = G2_addRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero, 0);
+            HandleError(result.returnCode);
+            withInfo.AppendLine(Util.UTF8toString(result.response));
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+      }
     }
 
 
@@ -170,6 +196,5 @@ public class G2Engine
             G2Exception.HandleError(errorCode, "Failed to return error message");
         G2_clearLastException();
     }
-
 }
 }
