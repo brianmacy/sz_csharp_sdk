@@ -11,6 +11,8 @@ ENDIF ()
 
 SET ( SOURCE_FILES
   G2Exceptions.cs
+  G2Config.cs
+  G2ConfigMgr.cs
   G2Product.cs
   G2Engine.cs
   G2EngineFlags.cs
@@ -27,8 +29,12 @@ add_test (NAME ProductTest COMMAND ProductTest.exe)
 CSHARP_ADD_EXECUTABLE ( EngineTest G2_csharp.dll EngineTest.cs )
 add_test (NAME EngineTest COMMAND EngineTest.exe)
 
+CSHARP_ADD_EXECUTABLE ( ConfigTest G2_csharp.dll ConfigTest.cs )
+add_test (NAME ConfigTest COMMAND ConfigTest.exe)
+
 ADD_DEPENDENCIES( ProductTest G2_csharp )
 ADD_DEPENDENCIES( EngineTest G2_csharp )
+ADD_DEPENDENCIES( ConfigTest G2_csharp )
 
 
 
