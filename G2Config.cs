@@ -91,8 +91,7 @@ struct G2Config_addDataSource_result
 
        try
         {
-            string json = "{\"DSRC_CODE\":\"" + dataSourceCode + "\"}";
-            json = json.Trim().ToUpper();
+            string json = "{\"DSRC_CODE\":\"" + dataSourceCode.Trim().ToUpper() + "\"}";
             result = G2Config_addDataSource_helper(handle, Encoding.UTF8.GetBytes(json));
             HandleError(result.returnCode);
         }

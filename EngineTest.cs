@@ -62,8 +62,8 @@ class EngineTest
         while (!string.IsNullOrEmpty(redoRecord))
         {
           Console.WriteLine("redoRecord: " + redoRecord);
-          G2Engine.processRedoRecord(redoRecord);
-          Console.WriteLine("processRedoRecord: SUCCESS");
+          G2Engine.processRedoRecord(redoRecord,sb);
+          Console.WriteLine("processRedoRecord withInfo: [SUCCESS]"+sb.ToString());
           redoRecord = G2Engine.getRedoRecord();
         }
 

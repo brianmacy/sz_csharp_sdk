@@ -19,11 +19,39 @@ public class G2Engine
         HandleError(G2_destroy());
     }
 
+    struct G2_deleteRecordWithInfo_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    };
     [DllImport ("G2")]
     static extern long G2_deleteRecord(byte[] dataSourceCode, byte[] recordID, IntPtr loadID);
-    public static void deleteRecord(string dataSourceCode, string recordID)
+    [DllImport ("G2")]
+    static extern G2_deleteRecordWithInfo_result G2_deleteRecordWithInfo_helper(byte[] dataSourceCode, byte[] recordID, IntPtr loadID, long flags);
+    public static void deleteRecord(string dataSourceCode, string recordID, StringBuilder withInfo = null)
     {
+      if (withInfo == null)
+      {
         HandleError(G2_deleteRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero));
+      }
+      else
+      {
+        withInfo.Clear();
+        G2_deleteRecordWithInfo_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
+        try
+        {
+            result = G2_deleteRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero, 0);
+            HandleError(result.returnCode);
+            withInfo.AppendLine(Util.UTF8toString(result.response));
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+      }
+
     }
 
     struct G2_addRecordWithInfo_result
@@ -139,11 +167,38 @@ public class G2Engine
     }
 
 
+    struct G2_processWithInfo_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    };
     [DllImport ("G2")]
     static extern long G2_process(byte[] redoRecord);
-    public static void processRedoRecord(string redoRecord)
+    [DllImport ("G2")]
+    static extern G2_processWithInfo_result G2_processWithInfo_helper(byte[] redoRecord, long flags);
+    public static void processRedoRecord(string redoRecord, StringBuilder withInfo = null)
     {
+      if (withInfo == null)
+      {
         HandleError(G2_process(Encoding.UTF8.GetBytes(redoRecord)));
+      }
+      else
+      {
+        withInfo.Clear();
+        G2_processWithInfo_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
+        try
+        {
+            result = G2_processWithInfo_helper(Encoding.UTF8.GetBytes(redoRecord), 0);
+            HandleError(result.returnCode);
+            withInfo.AppendLine(Util.UTF8toString(result.response));
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+      }
     }
 
 
