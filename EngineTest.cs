@@ -61,10 +61,10 @@ class EngineTest
         string redoRecord = G2Engine.getRedoRecord();
         while (!string.IsNullOrEmpty(redoRecord))
         {
-          Console.WriteLine("redoRecord: " + redoRecord);
-          G2Engine.processRedoRecord(redoRecord,sb);
-          Console.WriteLine("processRedoRecord withInfo: [SUCCESS]"+sb.ToString());
-          redoRecord = G2Engine.getRedoRecord();
+            Console.WriteLine("redoRecord: " + redoRecord);
+            G2Engine.processRedoRecord(redoRecord,sb);
+            Console.WriteLine("processRedoRecord withInfo: [SUCCESS]"+sb.ToString());
+            redoRecord = G2Engine.getRedoRecord();
         }
 
         Console.WriteLine("searchByAttributes2: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}"));

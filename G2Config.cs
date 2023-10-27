@@ -20,44 +20,44 @@ public class G2Config
     }
 
     struct G2Config_load_result
-{
+    {
         public IntPtr response;
         public long returnCode;
-};
+    };
 
     [DllImport ("G2")]
     static extern G2Config_load_result G2Config_load_helper(byte[] config);
     public static IntPtr load(string config) {
-       G2Config_load_result result;
-       result.response = IntPtr.Zero;
-       result.returnCode = 0;
-       result = G2Config_load_helper(Encoding.UTF8.GetBytes(config));
-       HandleError(result.returnCode);
-       return result.response;
+        G2Config_load_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
+        result = G2Config_load_helper(Encoding.UTF8.GetBytes(config));
+        HandleError(result.returnCode);
+        return result.response;
     }
 
 
     [DllImport ("G2")]
     static extern long G2Config_close_helper(IntPtr handle);
     public static void close(IntPtr handle) {
-       HandleError(G2Config_close_helper(handle));
+        HandleError(G2Config_close_helper(handle));
     }
 
 
     struct G2Config_save_result
-{
+    {
         public IntPtr response;
         public long returnCode;
-};
+    };
 
     [DllImport ("G2")]
     static extern G2Config_save_result G2Config_save_helper(IntPtr handle);
     public static string save(IntPtr handle) {
-       G2Config_save_result result;
-       result.response = IntPtr.Zero;
-       result.returnCode = 0;
+        G2Config_save_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
 
-       try
+        try
         {
             result = G2Config_save_helper(handle);
             HandleError(result.returnCode);
@@ -72,24 +72,24 @@ public class G2Config
     [DllImport ("G2")]
     static extern long G2Config_setDefaultConfigID(long configID);
     public static void setDefaultConfigID(long configID) {
-       HandleError(G2Config_setDefaultConfigID(configID));
+        HandleError(G2Config_setDefaultConfigID(configID));
     }
 
 
-struct G2Config_addDataSource_result
-{
-    public IntPtr response;
-    public long returnCode;
-};
+    struct G2Config_addDataSource_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    };
 
     [DllImport ("G2")]
     static extern G2Config_addDataSource_result G2Config_addDataSource_helper(IntPtr handle, byte[] json);
     public static void addDataSource(IntPtr handle, string dataSourceCode) {
-       G2Config_addDataSource_result result;
-       result.response = IntPtr.Zero;
-       result.returnCode = 0;
+        G2Config_addDataSource_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
 
-       try
+        try
         {
             string json = "{\"DSRC_CODE\":\"" + dataSourceCode.Trim().ToUpper() + "\"}";
             result = G2Config_addDataSource_helper(handle, Encoding.UTF8.GetBytes(json));
@@ -102,20 +102,20 @@ struct G2Config_addDataSource_result
     }
 
 
-struct G2Config_listDataSources_result
-{
-    public IntPtr response;
-    public long returnCode;
-};
+    struct G2Config_listDataSources_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    };
 
     [DllImport ("G2")]
     static extern G2Config_listDataSources_result G2Config_listDataSources_helper(IntPtr handle);
     public static string listDataSources(IntPtr handle) {
-       G2Config_listDataSources_result result;
-       result.response = IntPtr.Zero;
-       result.returnCode = 0;
+        G2Config_listDataSources_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
 
-       try
+        try
         {
             result = G2Config_listDataSources_helper(handle);
             HandleError(result.returnCode);

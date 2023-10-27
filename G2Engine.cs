@@ -30,27 +30,27 @@ public class G2Engine
     static extern G2_deleteRecordWithInfo_result G2_deleteRecordWithInfo_helper(byte[] dataSourceCode, byte[] recordID, IntPtr loadID, long flags);
     public static void deleteRecord(string dataSourceCode, string recordID, StringBuilder withInfo = null)
     {
-      if (withInfo == null)
-      {
-        HandleError(G2_deleteRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero));
-      }
-      else
-      {
-        withInfo.Clear();
-        G2_deleteRecordWithInfo_result result;
-        result.response = IntPtr.Zero;
-        result.returnCode = 0;
-        try
+        if (withInfo == null)
         {
-            result = G2_deleteRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero, 0);
-            HandleError(result.returnCode);
-            withInfo.Append(Util.UTF8toString(result.response));
+            HandleError(G2_deleteRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero));
         }
-        finally
+        else
         {
-            Util.FreeG2Buffer(result.response);
+            withInfo.Clear();
+            G2_deleteRecordWithInfo_result result;
+            result.response = IntPtr.Zero;
+            result.returnCode = 0;
+            try
+            {
+                result = G2_deleteRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero, 0);
+                HandleError(result.returnCode);
+                withInfo.Append(Util.UTF8toString(result.response));
+            }
+            finally
+            {
+                Util.FreeG2Buffer(result.response);
+            }
         }
-      }
 
     }
 
@@ -65,27 +65,27 @@ public class G2Engine
     static extern G2_addRecordWithInfo_result G2_addRecordWithInfo_helper(byte[] dataSourceCode, byte[] recordID, byte[] jsonData, IntPtr loadID, long flags);
     public static void addRecord(string dataSourceCode, string recordID, string jsonData, StringBuilder withInfo = null)
     {
-      if (withInfo == null)
-      {
-        HandleError(G2_addRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero));
-      }
-      else
-      {
-        withInfo.Clear();
-        G2_addRecordWithInfo_result result;
-        result.response = IntPtr.Zero;
-        result.returnCode = 0;
-        try
+        if (withInfo == null)
         {
-            result = G2_addRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero, 0);
-            HandleError(result.returnCode);
-            withInfo.Append(Util.UTF8toString(result.response));
+            HandleError(G2_addRecord(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero));
         }
-        finally
+        else
         {
-            Util.FreeG2Buffer(result.response);
+            withInfo.Clear();
+            G2_addRecordWithInfo_result result;
+            result.response = IntPtr.Zero;
+            result.returnCode = 0;
+            try
+            {
+                result = G2_addRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero, 0);
+                HandleError(result.returnCode);
+                withInfo.Append(Util.UTF8toString(result.response));
+            }
+            finally
+            {
+                Util.FreeG2Buffer(result.response);
+            }
         }
-      }
     }
 
 
@@ -160,7 +160,7 @@ public class G2Engine
             HandleError(result.returnCode);
             string rec = Util.UTF8toString(result.response);
             if (string.IsNullOrEmpty(rec))
-              return null;
+                return null;
             return rec;
         }
         finally
@@ -181,27 +181,27 @@ public class G2Engine
     static extern G2_processWithInfo_result G2_processWithInfo_helper(byte[] redoRecord, long flags);
     public static void processRedoRecord(string redoRecord, StringBuilder withInfo = null)
     {
-      if (withInfo == null)
-      {
-        HandleError(G2_process(Encoding.UTF8.GetBytes(redoRecord)));
-      }
-      else
-      {
-        withInfo.Clear();
-        G2_processWithInfo_result result;
-        result.response = IntPtr.Zero;
-        result.returnCode = 0;
-        try
+        if (withInfo == null)
         {
-            result = G2_processWithInfo_helper(Encoding.UTF8.GetBytes(redoRecord), 0);
-            HandleError(result.returnCode);
-            withInfo.Append(Util.UTF8toString(result.response));
+            HandleError(G2_process(Encoding.UTF8.GetBytes(redoRecord)));
         }
-        finally
+        else
         {
-            Util.FreeG2Buffer(result.response);
+            withInfo.Clear();
+            G2_processWithInfo_result result;
+            result.response = IntPtr.Zero;
+            result.returnCode = 0;
+            try
+            {
+                result = G2_processWithInfo_helper(Encoding.UTF8.GetBytes(redoRecord), 0);
+                HandleError(result.returnCode);
+                withInfo.Append(Util.UTF8toString(result.response));
+            }
+            finally
+            {
+                Util.FreeG2Buffer(result.response);
+            }
         }
-      }
     }
 
 
@@ -234,11 +234,11 @@ public class G2Engine
     [DllImport ("G2")]
     static extern long G2_purgeRepository();
     static public void purgeRepository(string secretMessage = "DO NOT DO THIS") {
-      if (secretMessage != "YES, ERASE ALL MY DATA AND ALL PROCESSES HAVE SHUT DOWN!!!") {
-        G2Exception.HandleError(87, "Invalid secretMessage");
-      }
+        if (secretMessage != "YES, ERASE ALL MY DATA AND ALL PROCESSES HAVE SHUT DOWN!!!") {
+            G2Exception.HandleError(87, "Invalid secretMessage");
+        }
 
-      HandleError(G2_purgeRepository());
+        HandleError(G2_purgeRepository());
     }
 
     [DllImport ("G2")]

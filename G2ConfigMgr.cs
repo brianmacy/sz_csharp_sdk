@@ -20,61 +20,61 @@ public class G2ConfigMgr
     }
 
     struct G2ConfigMgr_addConfig_result
-{
+    {
         public long configID;
         public long returnCode;
-};
+    };
 
     [DllImport ("G2")]
     static extern G2ConfigMgr_addConfig_result G2ConfigMgr_addConfig_helper(byte[] config, byte[] comments);
     public static long addConfig(string config, string comments = "") {
-       G2ConfigMgr_addConfig_result result;
-       result.configID = 0;
-       result.returnCode = 0;
-       result = G2ConfigMgr_addConfig_helper(Encoding.UTF8.GetBytes(config),Encoding.UTF8.GetBytes(comments));
-       HandleError(result.returnCode);
-       return result.configID;
+        G2ConfigMgr_addConfig_result result;
+        result.configID = 0;
+        result.returnCode = 0;
+        result = G2ConfigMgr_addConfig_helper(Encoding.UTF8.GetBytes(config),Encoding.UTF8.GetBytes(comments));
+        HandleError(result.returnCode);
+        return result.configID;
     }
 
     [DllImport ("G2")]
     static extern long G2ConfigMgr_setDefaultConfigID(long configID);
     public static void setDefaultConfigID(long configID) {
-       HandleError(G2ConfigMgr_setDefaultConfigID(configID));
+        HandleError(G2ConfigMgr_setDefaultConfigID(configID));
     }
 
 
     struct G2ConfigMgr_getDefaultConfigID_result
-{
+    {
         public long configID;
         public long returnCode;
-};
+    };
 
     [DllImport ("G2")]
     static extern G2ConfigMgr_getDefaultConfigID_result G2ConfigMgr_getDefaultConfigID_helper();
     public static long getDefaultConfigID() {
-       G2ConfigMgr_getDefaultConfigID_result result;
-       result.configID = 0;
-       result.returnCode = 0;
-       result = G2ConfigMgr_getDefaultConfigID_helper();
-       HandleError(result.returnCode);
-       return result.configID;
+        G2ConfigMgr_getDefaultConfigID_result result;
+        result.configID = 0;
+        result.returnCode = 0;
+        result = G2ConfigMgr_getDefaultConfigID_helper();
+        HandleError(result.returnCode);
+        return result.configID;
     }
 
 
     struct G2ConfigMgr_getConfig_result
-{
+    {
         public IntPtr response;
         public long returnCode;
-};
+    };
 
     [DllImport ("G2")]
     static extern G2ConfigMgr_getConfig_result G2ConfigMgr_getConfig_helper(long configID);
     public static string getConfig(long configID) {
-       G2ConfigMgr_getConfig_result result;
-       result.response = IntPtr.Zero;
-       result.returnCode = 0;
+        G2ConfigMgr_getConfig_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
 
-       try
+        try
         {
             result = G2ConfigMgr_getConfig_helper(configID);
             HandleError(result.returnCode);
@@ -86,20 +86,20 @@ public class G2ConfigMgr
         }
     }
 
-struct G2ConfigMgr_getConfigList_result
-{
-    public IntPtr response;
-    public long returnCode;
-};
+    struct G2ConfigMgr_getConfigList_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    };
 
     [DllImport ("G2")]
     static extern G2ConfigMgr_getConfigList_result G2ConfigMgr_getConfigList_helper();
     public static string getConfigList() {
-       G2ConfigMgr_getConfigList_result result;
-       result.response = IntPtr.Zero;
-       result.returnCode = 0;
+        G2ConfigMgr_getConfigList_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
 
-       try
+        try
         {
             result = G2ConfigMgr_getConfigList_helper();
             HandleError(result.returnCode);
