@@ -21,6 +21,9 @@ SET ( SOURCE_FILES
 
 CSHARP_ADD_LIBRARY ( G2_csharp ${SOURCE_FILES} )
 
+#CSHARP_ADD_EXECUTABLE ( FileLoader G2_csharp.dll Newtonsoft.Json.13.0.3/lib/net45/Newtonsoft.Json.dll FileLoader.cs )
+CSHARP_ADD_EXECUTABLE ( FileLoader G2_csharp.dll Newtonsoft.Json.dll FileLoader.cs )
+
 include (CTest)
 
 CSHARP_ADD_EXECUTABLE ( ProductTest G2_csharp.dll ProductTest.cs )

@@ -4,6 +4,7 @@
 * .NET 4+
 * CMake 3.12 or higher
 * mono-complete (Ubuntu package, whatever on other distros)
+* nuget 2.12 or higher (https://github.com/mono/nuget-binary/tree/2.12 for mono users)
 * Senzing API 8.x or higher (currently pre-release)
 * Existing Senzing repository (see Senzing Quickstart for Docker)
 * Proper LD_LIBRARY_PATH set to include the Senzing libraries

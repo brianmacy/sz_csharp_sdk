@@ -225,7 +225,6 @@ public class G2Exception : Exception
         case 2205:
         case 2206:
         case 2207:
-        case 2208:
         case 2209:
         case 2210:
         case 2211:
@@ -380,6 +379,9 @@ public class G2Exception : Exception
 
         case 27:
             throw new G2UnknownDatasourceException(code, message);
+
+        case 2208:
+            return;
 
         default:
             throw new G2Exception(code, message);

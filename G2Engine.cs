@@ -44,7 +44,7 @@ public class G2Engine
         {
             result = G2_deleteRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID), IntPtr.Zero, 0);
             HandleError(result.returnCode);
-            withInfo.AppendLine(Util.UTF8toString(result.response));
+            withInfo.Append(Util.UTF8toString(result.response));
         }
         finally
         {
@@ -79,7 +79,7 @@ public class G2Engine
         {
             result = G2_addRecordWithInfo_helper(Encoding.UTF8.GetBytes(dataSourceCode),Encoding.UTF8.GetBytes(recordID),Encoding.UTF8.GetBytes(jsonData), IntPtr.Zero, 0);
             HandleError(result.returnCode);
-            withInfo.AppendLine(Util.UTF8toString(result.response));
+            withInfo.Append(Util.UTF8toString(result.response));
         }
         finally
         {
@@ -158,7 +158,10 @@ public class G2Engine
         {
             result = G2_getRedoRecord_helper();
             HandleError(result.returnCode);
-            return Util.UTF8toString(result.response);
+            string rec = Util.UTF8toString(result.response);
+            if (string.IsNullOrEmpty(rec))
+              return null;
+            return rec;
         }
         finally
         {
@@ -192,7 +195,7 @@ public class G2Engine
         {
             result = G2_processWithInfo_helper(Encoding.UTF8.GetBytes(redoRecord), 0);
             HandleError(result.returnCode);
-            withInfo.AppendLine(Util.UTF8toString(result.response));
+            withInfo.Append(Util.UTF8toString(result.response));
         }
         finally
         {
@@ -228,6 +231,15 @@ public class G2Engine
     }
 
 
+    [DllImport ("G2")]
+    static extern long G2_purgeRepository();
+    static public void purgeRepository(string secretMessage = "DO NOT DO THIS") {
+      if (secretMessage != "YES, ERASE ALL MY DATA AND ALL PROCESSES HAVE SHUT DOWN!!!") {
+        G2Exception.HandleError(87, "Invalid secretMessage");
+      }
+
+      HandleError(G2_purgeRepository());
+    }
 
     [DllImport ("G2")]
     static extern long G2_getLastException([MarshalAs(UnmanagedType.LPArray)] byte[] buf, long length);
