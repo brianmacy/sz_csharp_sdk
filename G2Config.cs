@@ -37,6 +37,24 @@ public class G2Config
     }
 
 
+    struct G2Config_create_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    };
+
+    [DllImport ("G2")]
+    static extern G2Config_create_result G2Config_create_helper();
+    public static IntPtr create() {
+        G2Config_create_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
+        result = G2Config_create_helper();
+        HandleError(result.returnCode);
+        return result.response;
+    }
+
+
     [DllImport ("G2")]
     static extern long G2Config_close_helper(IntPtr handle);
     public static void close(IntPtr handle) {

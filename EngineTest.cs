@@ -15,6 +15,7 @@ class EngineTest
             return -1;
         }
         G2Engine.init("EngineTest",engineConfig,0); // change 0 -> 1 for debug trace
+        G2Engine.purgeRepository("YES, ERASE ALL MY DATA AND ALL PROCESSES HAVE SHUT DOWN!!!");
 
         try
         {
@@ -57,6 +58,8 @@ class EngineTest
         StringBuilder sb = new StringBuilder();
         G2Engine.addRecord("TEST", "CS2","{\"NAME_FULL\":\"John Smith\",\"PHONE_NUMBER\":\"5551212\"}", sb);
         Console.WriteLine("addRecord withInfo: [SUCCESS] "+sb.ToString());
+        G2Engine.addRecord("TEST", "CS3","{\"NAME_FULL\":\"John E Smith\",\"PHONE_NUMBER\":\"5551212\"}", sb);
+        G2Engine.addRecord("TEST", "CS4","{\"NAME_FULL\":\"John Edward Smith\",\"PHONE_NUMBER\":\"5551212\"}", sb);
 
         string redoRecord = G2Engine.getRedoRecord();
         while (!string.IsNullOrEmpty(redoRecord))
@@ -68,6 +71,8 @@ class EngineTest
         }
 
         Console.WriteLine("searchByAttributes2: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}"));
+        Console.WriteLine("howEntity: " + G2Engine.howEntityByEntityID(2));
+        Console.WriteLine("whyEntity: " + G2Engine.whyEntityByEntityID(2));
 
         G2Engine.destroy();
         return 0;

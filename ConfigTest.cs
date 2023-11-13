@@ -14,25 +14,31 @@ class ConfigTest
             return -1;
         }
         G2ConfigMgr.init("ConfigTest",engineConfig,1);
+        G2Config.init("ConfigTest",engineConfig,1);
+        IntPtr handle = G2Config.create();
+        string newConfig = G2Config.save(handle);
+        G2Config.close(handle);
+        long newConfigID = G2ConfigMgr.addConfig(newConfig);
+        G2ConfigMgr.setDefaultConfigID(newConfigID);
+
         Console.WriteLine("Default Config ID: " + G2ConfigMgr.getDefaultConfigID());
-        Console.WriteLine("Default Config: " + G2ConfigMgr.getConfig(G2ConfigMgr.getDefaultConfigID()));
+        //Console.WriteLine("Default Config: " + G2ConfigMgr.getConfig(G2ConfigMgr.getDefaultConfigID()));
         Console.WriteLine("Config List: " + G2ConfigMgr.getConfigList());
 
-        G2Config.init("ConfigTest",engineConfig,1);
         long configID = G2ConfigMgr.getDefaultConfigID();
         string config = G2ConfigMgr.getConfig(configID);
-        IntPtr handle = G2Config.load(config);
+        handle = G2Config.load(config);
         Console.WriteLine("G2Config.load success");
         Console.WriteLine("listDataSources: " + G2Config.listDataSources(handle));
         G2Config.addDataSource(handle, "MY_DATASOurce ");
         Console.WriteLine("addDataSource: success");
         Console.WriteLine("listDataSources: " + G2Config.listDataSources(handle));
-        string newConfig = G2Config.save(handle);
-        Console.WriteLine("New Config: " + newConfig);
+        newConfig = G2Config.save(handle);
+        //Console.WriteLine("New Config: " + newConfig);
         G2Config.close(handle);
         Console.WriteLine("G2Config.close: success");
 
-        long newConfigID = G2ConfigMgr.addConfig(newConfig);
+        newConfigID = G2ConfigMgr.addConfig(newConfig);
         Console.WriteLine("addConfig: " + newConfigID);
         G2ConfigMgr.setDefaultConfigID(newConfigID);
         Console.WriteLine("setDefaultConfigID: success");

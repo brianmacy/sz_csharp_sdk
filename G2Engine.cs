@@ -89,7 +89,6 @@ public class G2Engine
     }
 
 
-    [StructLayout(LayoutKind.Sequential)]
     struct G2_getEntityByEntityID_V2_result
     {
         public IntPtr response;
@@ -115,7 +114,6 @@ public class G2Engine
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
     struct G2_getEntityByRecordID_V2_result
     {
         public IntPtr response;
@@ -141,7 +139,6 @@ public class G2Engine
     }
 
 
-    [StructLayout(LayoutKind.Sequential)]
     struct G2_getRedoRecord_result
     {
         public IntPtr response;
@@ -205,7 +202,6 @@ public class G2Engine
     }
 
 
-    [StructLayout(LayoutKind.Sequential)]
     struct G2_searchByAttributes_V2_result
     {
         public IntPtr response;
@@ -221,6 +217,58 @@ public class G2Engine
         try
         {
             result = G2_searchByAttributes_V2_helper(Encoding.UTF8.GetBytes(jsonData), (long)flags);
+            HandleError(result.returnCode);
+            return Util.UTF8toString(result.response);
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+    }
+
+
+
+    struct G2_howEntityByEntityID_V2_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    }
+
+    [DllImport ("G2")]
+    static extern G2_howEntityByEntityID_V2_result G2_howEntityByEntityID_V2_helper(long entityID, long flags);
+    public static string howEntityByEntityID(long entityID, G2EngineFlags flags = G2EngineFlags.G2_HOW_ENTITY_DEFAULT_FLAGS)
+    {
+        G2_howEntityByEntityID_V2_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
+        try
+        {
+            result = G2_howEntityByEntityID_V2_helper(entityID, (long)flags);
+            HandleError(result.returnCode);
+            return Util.UTF8toString(result.response);
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+    }
+
+    struct G2_whyEntityByEntityID_V2_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    }
+
+    [DllImport ("G2")]
+    static extern G2_whyEntityByEntityID_V2_result G2_whyEntityByEntityID_V2_helper(long entityID, long flags);
+    public static string whyEntityByEntityID(long entityID, G2EngineFlags flags = G2EngineFlags.G2_WHY_ENTITY_DEFAULT_FLAGS)
+    {
+        G2_whyEntityByEntityID_V2_result result;
+        result.response = IntPtr.Zero;
+        result.returnCode = 0;
+        try
+        {
+            result = G2_whyEntityByEntityID_V2_helper(entityID, (long)flags);
             HandleError(result.returnCode);
             return Util.UTF8toString(result.response);
         }
