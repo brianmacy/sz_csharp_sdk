@@ -253,22 +253,22 @@ public class G2Engine
         }
     }
 
-    struct G2_whyEntityByEntityID_V2_result
+    struct G2_whyEntities_V2_result
     {
         public IntPtr response;
         public long returnCode;
     }
 
     [DllImport ("G2")]
-    static extern G2_whyEntityByEntityID_V2_result G2_whyEntityByEntityID_V2_helper(long entityID, long flags);
-    public static string whyEntityByEntityID(long entityID, G2EngineFlags flags = G2EngineFlags.G2_WHY_ENTITY_DEFAULT_FLAGS)
+    static extern G2_whyEntities_V2_result G2_whyEntities_V2_helper(long entityID1, long entityID2, long flags);
+    public static string whyEntities(long entityID1, long entityID2, G2EngineFlags flags = G2EngineFlags.G2_WHY_ENTITY_DEFAULT_FLAGS)
     {
-        G2_whyEntityByEntityID_V2_result result;
+        G2_whyEntities_V2_result result;
         result.response = IntPtr.Zero;
         result.returnCode = 0;
         try
         {
-            result = G2_whyEntityByEntityID_V2_helper(entityID, (long)flags);
+            result = G2_whyEntities_V2_helper(entityID1, entityID2, (long)flags);
             HandleError(result.returnCode);
             return Util.UTF8toString(result.response);
         }

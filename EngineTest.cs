@@ -27,8 +27,9 @@ class EngineTest
             Console.WriteLine("getEntityByEntityID -1: Unknown [SUCCESS]");
         }
 
-        G2Engine.addRecord("TEST", "CS1","{\"NAME_FULL\":\"John Smith\",\"PHONE_NUMBER\":\"5551212\"}");
+        G2Engine.addRecord("TEST", "CS0","{\"NAME_FULL\":\"George Smith\",\"PHONE_NUMBER\":\"5551212\"}");
         Console.WriteLine("addRecord: [SUCCESS]");
+        G2Engine.addRecord("TEST", "CS1","{\"NAME_FULL\":\"John Smith\",\"PHONE_NUMBER\":\"5551212\"}");
         Console.WriteLine("getEntityByRecordID: " + G2Engine.getEntityByRecordID("TEST", "CS1"));
         Console.WriteLine("searchByAttributes: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}"));
 
@@ -71,8 +72,11 @@ class EngineTest
         }
 
         Console.WriteLine("searchByAttributes2: " + G2Engine.searchByAttributes("{\"NAME_FULL\":\"John Smith\"}"));
-        Console.WriteLine("howEntity: " + G2Engine.howEntityByEntityID(2));
-        Console.WriteLine("whyEntity: " + G2Engine.whyEntityByEntityID(2));
+        // The hardcoded entity IDs are a hack
+        // Should use the search results to inquire based on what the RES_ENT_IDs actually are
+        // But since this test purges every time, it works
+        Console.WriteLine("howEntity: " + G2Engine.howEntityByEntityID(3));
+        Console.WriteLine("whyEntities: " + G2Engine.whyEntities(1,3));
 
         G2Engine.destroy();
         return 0;
