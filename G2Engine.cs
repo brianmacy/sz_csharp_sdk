@@ -14,6 +14,13 @@ public class G2Engine
     }
 
     [DllImport ("G2")]
+    static extern long G2_reinit(long configID);
+    public static void reinit(long configID) {
+        HandleError(G2_reinit(configID));
+    }
+
+
+    [DllImport ("G2")]
     static extern long G2_destroy();
     public static void destroy() {
         HandleError(G2_destroy());
