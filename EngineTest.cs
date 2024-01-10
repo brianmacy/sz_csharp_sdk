@@ -78,6 +78,8 @@ class EngineTest
         Console.WriteLine("howEntity: " + G2Engine.howEntityByEntityID(3));
         Console.WriteLine("whyEntities: " + G2Engine.whyEntities(1,3));
 
+        Console.WriteLine("stats: " + G2Engine.stats());
+
         G2Engine.destroy();
         return 0;
     }

@@ -174,6 +174,34 @@ public class G2Engine
     }
 
 
+    struct G2_stats_result
+    {
+        public IntPtr response;
+        public long returnCode;
+    }
+
+    [DllImport ("G2")]
+    static extern G2_stats_result G2_stats_helper();
+    public static string stats()
+    {
+        G2_stats_result result;
+        result.response = IntPtr.Zero;
+        try
+        {
+            result = G2_stats_helper();
+            HandleError(result.returnCode);
+            string rec = Util.UTF8toString(result.response);
+            if (string.IsNullOrEmpty(rec))
+                return null;
+            return rec;
+        }
+        finally
+        {
+            Util.FreeG2Buffer(result.response);
+        }
+    }
+
+
     struct G2_processWithInfo_result
     {
         public IntPtr response;
